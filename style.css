@@ -1,0 +1,62 @@
+/**
+ * jquery.kyco.popup | Brought to you by www.kyco.co.za. Use freely. Copyright 2013 Cornelius Weidmann. Distributed under the GPL.
+ * Go ahead and make your popup awesome!
+ */
+.defaultPopup {
+	/**
+	 * This is your popup, style it. Add all the css you want, except margin.
+	 * You'll have difficulties with popup shadow when using margin.
+	 * Postion "top" and "left" must be specified in the popup call (i.e. where you customise your options).
+	 */
+	padding:10px;
+	background:#fff;
+}
+
+.defaultPopupTrigger {
+	/* Trigger button or element for popup. Style it or leave out completely, it's optional. */
+}
+
+.defaultPopupCloser {
+	/* Close button on popup. Style it or leave out completely, it's optional. */
+	border:1px solid #000;
+}
+.defaultPopupTrigger:hover, .defaultPopupCloser:hover {
+	/* Hover effects for trigger and button. */
+	cursor:pointer;
+}
+
+
+
+/**
+ * An ugly customized popup as example.
+ */
+.customPopupName {
+	padding:10px;
+	width:500px;
+	border:1px solid #000;
+	border-radius:2px;
+	box-shadow:inset 10px 0 5px 0 #000;
+	background:#fff;
+	opacity:1;
+	text-align:center;
+}
+
+.customPopupNameTrigger {
+	font-style:italic;
+}
+.customPopupNameTrigger:hover {
+	cursor:pointer;
+	background:#333;
+	color:#ccc;
+}
+
+.customPopupNameCloser {
+	margin:10px auto 0 auto;
+	padding:3px 10px;
+	width:50px;
+	border:1px solid #000;
+	background:#eee;
+}
+.customPopupNameCloser:hover {
+	cursor:pointer;
+}
