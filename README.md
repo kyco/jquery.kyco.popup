@@ -1,7 +1,7 @@
 jquery.kyco.popup
 =================
 
-A minimalistic and leightweight (3.16KB) modal plugin.
+A minimalistic and leightweight (2.13KB) modal plugin.
 
 
 Support
