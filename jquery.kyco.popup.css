@@ -1,0 +1,31 @@
+/*********************************************\
+
+	jquery.kyco.popup
+	v1.1.0
+
+	Brought to you by http://www.kyco.co.za
+	Copyright 2013 Cornelius Weidmann
+
+	Distributed under the GPL
+
+	Go ahead and make your preloader awesome!
+
+\*********************************************/
+
+.defaultPopup {
+	/*
+	**	This is your popup, style it. Add all the css you want, except margin.
+	**	You'll have difficulties with popup shadow when using margin.
+	**	Postion "top" and "left" must be specified in the popup call (i.e. where you customise your options).
+	*/
+	display: none; /* You'll want this in case the page takes long to load before the script executes */
+	padding: 10px;
+	background: #fff;
+	box-shadow: 0 0 0 1px #000;
+}
+
+.defaultPopupCloser {
+	/* Close button on popup. Style it or leave out completely, it's optional. */
+	border: 1px solid #000;
+	cursor: pointer;
+}

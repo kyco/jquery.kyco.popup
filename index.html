@@ -1,55 +1,47 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+	<meta charset="utf-8">
 	<title>kyco.popup Demo</title>
-	<link rel="stylesheet" href="style.css" />
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script src="jquery.kyco.popup.min.js"></script>
+	<link rel="stylesheet" href="jquery.kyco.popup.css">
+	<script src="jquery-1.10.2.min.js"></script>
+	<script src="jquery.kyco.popup.js"></script>
 </head>
 <body>
 	<h3>kyco.popup Demo</h3>
 	<p>Brought to you by <a href="http://www.kyco.co.za." target="_blank">www.kyco.co.za</a>. Use freely. Copyright 2013 Cornelius Weidmann. Distributed under the GPL.</p>
 
 	<div class="defaultPopup">
-		Default popup.<br />
-		This is some text. You can do whatever you want in this popup.<br />
+		Default popup.<br>
+		This is some text. You can do whatever you want in this popup.<br>
 		<span class="defaultPopupCloser">Close</span>
 	</div>
 
-	<span class="customPopupNameTrigger">Launch customized popup...</span>
-	<div class="customPopupName">
-		Customised example popup.<br />
-		This is some text. You can do whatever you want in this popup.
-		<div class="customPopupNameCloser">Close</div>
-	</div>
-
 	<script>
-		$(document).ready(function(){
-			$('.defaultPopup').kycoPopup();
+		$(document).ready(function() {
+			$('.defaultPopup, .customPopupName').kycoPopup({
+				callback: function() {
+					console.log('init', $(this));
+				}
+			});
 
-			$('.customPopupName').kycoPopup({
-				trigger: '$(".customPopupNameTrigger")',
-				trigger_delay: 500,
-				popup_fadein: 1000,
-				popup_fadeout: 3000,
+			$('.defaultPopup').kycoPopup('open', {
+				delay: 0,
+				fadeDuration: 1000,
+					callback: function() {
+						console.log('opened', $(this));
+					}
+			});
 
-				overlay_background: 'red',
-				overlay_opacity: 0.5,
 
-				shadow_offset_width: 5,
-				shadow_offset_height: 20,
-				shadow_background: '#fff',
-				shadow_border: '5px dashed #333',
-				shadow_borderradius: '5px',
-				shadow_boxshadow: '0 0 50px 10px #000',
-				shadow_opacity: 1,
-
-				popup_top: 100,
-				popup_left: 100,
-
-				close_on_popupCloser: 'yes',
-				close_on_backgroundClick: 'no',
-				close_on_ESC: 'no'
+			$('.defaultPopupCloser').click(function() {
+				$('.defaultPopup').kycoPopup('close', {
+					delay: 0,
+					fadeDuration: 0,
+					callback: function() {
+						console.log('closed', $(this));
+					}
+				});
 			});
 		});
 	</script>

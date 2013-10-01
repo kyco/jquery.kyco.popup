@@ -1,223 +1,158 @@
-// jquery.kyco.popup brought to you by www.kyco.co.za. Copyright 2013 Cornelius Weidmann. Distributed under the GPL.
-(function($){
-	$.fn.extend({
-		kycoPopup: function(options){
-			/**
-			 *  Turns an element into a popup. Multiple popups can be triggered on the same page.
-			 *  Defaults:
-			 *  trigger: 'pageload', // or e.g. '$(".defaultPopupTrigger")'
-			 *  trigger_delay: 0, // in ms, 1000 = 1s
-			 *  popup_fadein: 0, // in ms, 1000 = 1s
-			 *  popup_fadeout: 0, // in ms, 1000 = 1s
+/*********************************************\
 
-			 *  overlay_background: '#000', // or standard css shorthand for background, e.g. '#000 url(overlay.png) no-repeat'
-			 *  overlay_opacity: 0.1, // value between 0 and 1
+	jquery.kyco.popup
+	v1.1.0
 
-			 *  shadow_offset_width: 5, // value of shadow width in px
-			 *  shadow_offset_height: 5, // value of shadow height in px
-			 *  shadow_border: '0', // or standard css shorthand for border, e.g. '2px solid #000'
-			 *  shadow_borderradius: '0', // or standard css shorthand for border-radius, e.g. '10px 5px'
-			 *  shadow_boxshadow: '0', // or standard css shorthand for box-shadow, e.g. '2px 0 5px 0 #000 inset'
-			 *  shadow_background: '#000', // or standard css shorthand for background, e.g. '#000 url(overlay.png) no-repeat'
-			 *  shadow_opacity: 0.5, // value between 0 and 1
+	Brought to you by http://www.kyco.co.za
+	Copyright 2013 Cornelius Weidmann
 
-			 *  popup_top: default_y_pos, // value of top positioning in px, e.g. 100
-			 *  popup_left: default_x_pos, // value of left positioning in px, e.g. 100
+	Distributed under the GPL
 
-			 *  close_on_popupCloser: 'yes', // or 'no' to disable
-			 *  close_on_backgroundClick: 'yes', // or 'no' to disable
-			 *  close_on_ESC: 'yes' // or 'no' to disable
-			 */
+\*********************************************/
 
-			// Set variable names to class name of popup.
-			var customPopupName = this.attr('class');
-			var customPopupNameContainer = customPopupName + 'Container';
-			var customPopupNameLockPage = customPopupName + 'LockPage';
-			var customPopupNameShadow = customPopupName + 'Shadow';
-			var customPopupNameCloser = customPopupName + 'Closer';
-			var customPopupNameTrigger = customPopupName + 'Trigger';
+(function($) {
+	var defaults = {
+		zIndex: 10,
+		position: 'fixed',
+		top: 'auto',
+		right: 'auto',
+		bottom: 'auto',
+		left: 'auto',
+		boxSizing: 'border-box',
+		delay: 0,
+		fadeDuration: 0,
+		overlayBackground: '#fff',
+		overlayOpacity: .3,
+		callback: function() {}
+	};
 
-			// Get class name of element which needs popup attached and change it to the container which will hold all popup elements.
-			var el_class = this.attr('class', customPopupNameContainer).attr('class');
+	var globalPopups = [];
 
-			// Create an ID for the element equal to class name so that future references with "getElementById" can be made.
-			var el_id = this.attr('id', el_class).attr('id');
+	var methods = {
+		init: function(options) {
+			var settings = $.extend({}, defaults, options);
 
-			// Hide the popup, that's the default.
-			$('.' + customPopupNameContainer).css({'display':'none'});
+			return this.each(function() {
+				var self = $(this);
+				var globalWindow = $(window);
+				var popupName = self.attr('class');
+				var popupContainer = $('<div id="' + popupName + 'Container"></div>');
+				var popupOverlay = $('<div class="' + popupName + 'Overlay"></div>');
 
-			// Get the contents of the div that is calling the popup. We will make some structural changes, later we paste the actual content back into the popup.
-			var get_popup_contents = document.getElementById(el_id).innerHTML;
+				globalPopups.push(popupContainer);
 
-			// Create structure. This creates the overlay, the popup shadow and the popup itself with the content.
-			document.getElementById(el_id).innerHTML = '<div class="' + customPopupNameLockPage + '"></div><div class="' + customPopupNameShadow + '" id="' + customPopupNameShadow + '"></div><div class="' + customPopupName + '" id="' + customPopupName + '">' + get_popup_contents + '</div>';
+				// Default styling
+				var defaultCss = {
+					'z-index': settings.zIndex,
+					'top': 0,
+					'left': 0,
+					'width': '100%',
+					'height': '100%'
+				};
 
-			// Center the popup, that's the default.
-			var window_width = document.documentElement.clientWidth;
-			var window_height = document.documentElement.clientHeight;
-			var popup_width = document.getElementById(customPopupName).offsetWidth;
-			var popup_height = document.getElementById(customPopupName).offsetHeight;
-			var popup_y_pos = window_height/2 - popup_height/2;
-			var popup_x_pos = window_width/2 - popup_width/2;
-			var default_y_pos = popup_y_pos;
-			var default_x_pos = popup_x_pos;
+				popupContainer.css($.extend({}, defaultCss, {
+					'position': 'absolute',
+					'display': 'none'
+				}));
 
-			// Set the defaults for the popup.
-			var defaults = {
-				// Defaults that should not be changed:
-				overlay_zindex: '1000000000',
-				overlay_position: 'fixed',
-				overlay_top: 0,
-				overlay_left: 0,
-				overlay_width: '100%',
-				overlay_height: '100%',
+				popupOverlay.css($.extend({}, defaultCss, {
+					'position': 'fixed',
+					'background': settings.overlayBackground,
+					'opacity': settings.overlayOpacity
+				}));
 
-				shadow_zindex: '1000000001',
-				shadow_position: 'fixed',
-				shadow_top: 0,
-				shadow_left: 0,
-
-				popup_zindex: '1000000001',
-				popup_position: 'fixed',
-
-				// Defaults that can be customised:
-				overlay_background: '#000',
-				overlay_opacity: 0.1,
-
-				shadow_offset_width: 5,
-				shadow_offset_height: 5,
-				shadow_border: '0',
-				shadow_borderradius: '0',
-				shadow_boxshadow: '0',
-				shadow_background: '#000',
-				shadow_opacity: 0.5,
-
-				popup_top: default_y_pos,
-				popup_left: default_x_pos,
-				popup_width: '',
-				popup_height: '',
-
-				close_on_popupCloser: 'yes',
-				close_on_backgroundClick: 'yes',
-				close_on_ESC: 'yes',
-
-				trigger: 'pageload',
-				trigger_delay: 0,
-
-				popup_fadein: 0,
-				popup_fadeout: 0
-			};
-
-			// Extend the defaults with the user options.
-			var settings = $.extend(defaults, options);
-
-			// After the defaults and user options are set as settings, launch the popup.
-			function launchPopup(){
-				/**
-				 *  Creates all styling for the overlay, shadow and popup. Makes sure that the popup is positioned according
-				 *  to the defaults or the user options. Also sets trigger behaviour for the popup.
-				 */
-
-				$('.' + customPopupNameContainer).fadeIn(settings.popup_fadein);
-
-				$('.' + customPopupNameLockPage).css({
-					// Set the defaults that should not have been changed:
-					'z-index': settings.overlay_zindex,
-					'position': settings.overlay_position,
-					'top': settings.overlay_top + 'px',
-					'left': settings.overlay_left + 'px',
-					'width': settings.overlay_width,
-					'height': settings.overlay_height,
-					// Set customizable defaults:
-					'background': settings.overlay_background,
-					'opacity': settings.overlay_opacity
+				self.css({
+					'z-index': settings.zIndex,
+					'position': settings.position,
+					'top': settings.top,
+					'right': settings.right,
+					'bottom': settings.bottom,
+					'left': settings.left,
+					'box-sizing': settings.boxSizing
 				});
 
-				$('.' + customPopupNameShadow).css({
-					// Set the defaults that should not have been changed:
-					'z-index': settings.shadow_zindex,
-					'position': settings.shadow_position,
-					// Set customizable defaults:
-					'border': settings.shadow_border,
-					'border-radius': settings.shadow_borderradius,
-					'box-shadow': settings.shadow_boxshadow,
-					'background': settings.shadow_background,
-					'opacity': settings.shadow_opacity
+				if (settings.top === 'auto' && settings.bottom === 'auto') {
+					settings.top = (globalWindow.height() - self.height()) / 2;
+					self.css('top', settings.top);
+				}
+
+				if (settings.right === 'auto' && settings.left === 'auto') {
+					settings.left = (globalWindow.width() - self.width()) / 2;
+					self.css('left', settings.left);
+				}
+
+				popupContainer.append(popupOverlay, self);
+				$('body').append(popupContainer);
+
+				settings.callback.call(popupContainer);
+			});
+		},
+		open: function(options) {
+			var settings = $.extend({}, defaults, options);
+
+			return this.each(function() {
+				var popup = getPopup($(this).attr('class'));
+				popup.children().stop().delay(settings.delay).fadeIn(settings.fadeDuration);
+				popup.stop().delay(settings.delay).fadeIn(settings.fadeDuration, function() {
+					settings.callback.call(popup);
 				});
+			});
+		},
+		close: function(options) {
+			var settings = $.extend({}, defaults, options);
 
-				$('.' + customPopupName).css({
-					// Set the defaults that should not have been changed:
-					'display': 'block',
-					'z-index': settings.popup_zindex,
-					'position': settings.popup_position,
-					// Set customizable defaults:
-					'width': settings.popup_width + 'px',
-					'height': settings.popup_height + 'px'
+			return this.each(function() {
+				var popup = getPopup($(this).attr('class'));
+				popup.stop().delay(settings.delay).fadeOut(settings.fadeDuration, function() {
+					settings.callback.call(popup);
 				});
+			});
+		},
+		destroy: function(options) {
+			var settings = $.extend({}, defaults, options);
 
-				// Overwrite default positioning of popup if user changed it.
-				popup_width = document.getElementById(customPopupName).offsetWidth;
-				popup_height = document.getElementById(customPopupName).offsetHeight;
-				popup_y_pos = (settings.popup_top !== default_y_pos) ? settings.popup_top : window_height/2 - popup_height/2;
-				popup_x_pos = (settings.popup_left !== default_x_pos) ? settings.popup_left : window_width/2 - popup_width/2;
-
-				$('.' + customPopupName).css({
-					'top': popup_y_pos + 'px',
-					'left': popup_x_pos + 'px'
-				});
-
-				// Set shadow position, width and height according to the popup's position, width and height.
-				var shadow_border = parseInt(settings.shadow_border);
-				var shadow_width = popup_width + settings.shadow_offset_width*2 + shadow_border;
-				var shadow_height = popup_height + settings.shadow_offset_height*2 + shadow_border;
-				var shadow_y_pos = (settings.popup_top !== default_y_pos) ? settings.popup_top - settings.shadow_offset_height - shadow_border - shadow_border/2 : window_height/2 - shadow_height/2 - parseInt(settings.shadow_border);
-				var shadow_x_pos = (settings.popup_left !== default_x_pos) ? settings.popup_left - settings.shadow_offset_width - shadow_border - shadow_border/2 : window_width/2 - shadow_width/2 - parseInt(settings.shadow_border);
-
-				$('.' + customPopupNameShadow).css({
-					'top': shadow_y_pos + 'px',
-					'left': shadow_x_pos + 'px',
-					'width': shadow_width + 'px',
-					'height': shadow_height + 'px'
-				});
-
-				// Close options for the popup.
-				if (settings.close_on_popupCloser == 'yes'){
-					$('.' + customPopupNameCloser).on('click', function(){
-						$('.' + customPopupNameContainer).fadeOut(settings.popup_fadeout);
-					});
-				}
-				if (settings.close_on_backgroundClick == 'yes'){
-					$('.' + customPopupNameLockPage).on('click', function(){
-						$('.' + customPopupNameContainer).fadeOut(settings.popup_fadeout);
-					});
-				}
-				if (settings.close_on_ESC == 'yes'){
-					$(document).keypress(function(e){
-						if (e.keyCode == 27){
-							$('.' + customPopupNameContainer).fadeOut(settings.popup_fadeout);
-						}
-					});
-				}
-			}
-
-			// Detect if a trigger will be used to launch the popup, otherwise load popup on pageload.
-			var testTrigger = '$(".' + customPopupNameTrigger + '")';
-
-			return this.each(function(){
-				if (settings.trigger == 'pageload'){
-					setTimeout(function(){
-						launchPopup()
-					}, settings.trigger_delay);
-				}
-				else if (settings.trigger == testTrigger){
-					$('.' + customPopupNameTrigger).click(function(){
-						setTimeout(function(){
-							launchPopup()
-						}, settings.trigger_delay);
-					});
-				}
-				else alert('Error identifying trigger! You\'re trying to access an invalid element. (Use default settings to get rid of this error.)');
+			return this.each(function() {
+				var popup = getPopup($(this).attr('class'));
+				popup.stop().unbind().remove();
+				settings.callback.call(popup);
 			});
 		}
-	});
+	};
+
+	function getPopup(name) {
+		var searchStr = name + 'Container';
+		var count = 0;
+		var found = 0;
+
+		globalPopups.forEach(function(popup) {
+			if (searchStr == popup.attr('id')) {
+				found = count;
+			}
+			count++;
+		});
+
+		return globalPopups[found];
+	}
+
+	// Check if browser supports Array.forEach() method, if it doesn't mimic that functionality,
+	// implementation from here: http://stackoverflow.com/questions/2790001/fixing-javascript-array-functions-in-internet-explorer-indexof-foreach-etc
+	if (!('forEach' in Array.prototype)) {
+		Array.prototype.forEach = function(action, that /*opt*/) {
+			for (var i = 0, n = this.length; i < n; i++) {
+				if (i in this) {
+					action.call(that, this[i], i, this);
+				}
+			}
+		};
+	}
+
+	$.fn.kycoPopup = function(method) {
+		if (methods[method]) {
+			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		} else if (typeof method === 'object' || !method) {
+			return methods.init.apply(this, arguments);
+		} else {
+			$.error('Method ' +  method + ' does not exist on jQuery.kycoPopup');
+		}
+	};
 })(jQuery);
