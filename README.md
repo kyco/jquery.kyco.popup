@@ -7,4 +7,4 @@ A minimalistic and lightweight (2.13KB) modal plugin.
 Support
 -------
 
-For bugs or improvements please email [mailto:info@kycosoftware.com](info@kycosoftware.com).
+For bugs or improvements please email [info@kycosoftware.com](mailto:info@kycosoftware.com).
