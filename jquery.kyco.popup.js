@@ -1,7 +1,7 @@
 /*********************************************\
 
 	jquery.kyco.popup
-	v1.1.0
+	v1.1.1
 
 	Brought to you by http://www.kyco.co.za
 	Copyright 2013 Cornelius Weidmann
@@ -72,12 +72,12 @@
 				});
 
 				if (settings.top === 'auto' && settings.bottom === 'auto') {
-					settings.top = (globalWindow.height() - self.height()) / 2;
+					settings.top = (globalWindow.height() - self.outerHeight()) / 2;
 					self.css('top', settings.top);
 				}
 
 				if (settings.right === 'auto' && settings.left === 'auto') {
-					settings.left = (globalWindow.width() - self.width()) / 2;
+					settings.left = (globalWindow.width() - self.outerWidth()) / 2;
 					self.css('left', settings.left);
 				}
 
