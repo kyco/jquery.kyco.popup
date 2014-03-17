@@ -47,7 +47,9 @@
 	<script>
 		$(document).ready(function() {
 			// Init default popup
-			$('.defaultPopup').kycoPopup();
+			$('.defaultPopup').kycoPopup({
+				top: 50
+			});
 
 			// Launch on page load
 			$('.defaultPopup').kycoPopup('open');
