@@ -15,7 +15,7 @@ Download the js file and include it in your head after including jquery:
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="jquery.kyco.popup.min.js"></script>
 
-Also include the css file and grab the loader.gif from the demo directory:
+Also include the css file from the demo directory for very basic styling:
 
 	<link rel="stylesheet" href="jquery.kyco.popup.css">
 
