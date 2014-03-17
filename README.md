@@ -108,11 +108,11 @@ The position of the popup, usually 'fixed' or 'absolute'.
 	bottom: 'auto',
 	left: 'auto',
 
-Used to manually override the auto centering of the popup by the plugin, e.g. top: 50.
+Used to manually override the auto centering of the popup, e.g. top: 50.
 
 	boxSizing: 'border-box',
 
-Dafault box-sizing value the popup should use.
+Default box-sizing value the popup should use.
 
 	delay: 0,
 
