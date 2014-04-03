@@ -1,0 +1,35 @@
+/***************************************\
+
+	jquery.kyco.popup
+	=================
+
+	Version 1.1.1
+
+	Brought to you by
+	http://www.kycosoftware.com/
+
+	Copyright 2014 Cornelius Weidmann
+
+	Distributed under the GPL
+
+\***************************************/
+
+.defaultPopup,
+.triggeredPopup {
+	/*
+	**	This is your popup, style it. Add all the css you want.
+	**	Postion "top" and "left" must be specified when in initiating the popup, i.e. in your javascript.
+	*/
+	display: none; /* You'll want this in case the page takes long to load before the script executes */
+	padding: 10px;
+	background: #fff;
+	border: 10px solid rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 0 1px #000;
+}
+
+.defaultPopupCloser,
+.triggeredPopupCloser {
+	/* Close button on popup. Style it or leave out completely, it's optional. */
+	border: 1px solid #000;
+	cursor: pointer;
+}
