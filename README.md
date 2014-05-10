@@ -1,5 +1,5 @@
-jquery.kyco.popup
-=================
+kyco Popup
+==========
 ####Version: 1.1.1
 
 A minimalistic and lightweight (2.13KB) modal plugin.
@@ -10,12 +10,12 @@ Take a look at the [demo](http://www.kycosoftware.com/projects/demo/popup).
 How to install
 --------------
 
-Download the js file and include it in your head after including jquery:
+Download or clone and include the minified js file after including jquery:
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="jquery.kyco.popup.min.js"></script>
 
-Also include the css file from the demo directory for very basic styling:
+For default styling include the CSS file from the src directory:
 
 	<link rel="stylesheet" href="jquery.kyco.popup.css">
 
@@ -32,13 +32,11 @@ call the respective methods. See below:
 	
 	<script>
 		$(document).ready(function() {
-			// Init default popup
-			$('.defaultPopup').kycoPopup();
+			$('.defaultPopup').kycoPopup(); // Initiate the default popup.
 
-			// Launch on page load
-			$('.defaultPopup').kycoPopup('open');
+			$('.defaultPopup').kycoPopup('open'); // Launch on page load.
 
-			// Attach triggers to overlay and close button
+			// Attach triggers to overlay and close button.
 			$('.defaultPopupOverlay, .defaultPopupCloser').click(function() {
 				$('.defaultPopup').kycoPopup('close');
 			});
@@ -58,7 +56,7 @@ What a customisation looks like:
 	
 	<script>
 		$(document).ready(function() {
-			// Init triggered popup
+			// Initiate the triggered popup.
 			$('.triggeredPopup').kycoPopup({
 				position: 'absolute',
 				top: 50,
@@ -70,7 +68,7 @@ What a customisation looks like:
 				}
 			});
 
-			// Launch on trigger
+			// Launch on trigger.
 			$('.jsPopupTrigger').click(function() {
 				$('.triggeredPopup').kycoPopup('open', {
 					callback: function() {
@@ -79,7 +77,7 @@ What a customisation looks like:
 				});
 			});
 
-			// Attach triggers to overlay and close button
+			// Attach triggers to overlay and close button.
 			$('.triggeredPopupCloser').click(function() {
 				$('.triggeredPopup').kycoPopup('close', {
 					callback: function() {
@@ -92,7 +90,7 @@ What a customisation looks like:
 
 
 Configuration - kycoPopup({ *options* })
--------------------------------------------------
+----------------------------------------
 
 	zIndex: 10,
 
