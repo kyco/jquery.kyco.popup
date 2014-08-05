@@ -16,18 +16,18 @@
 
 (function($) {
 	var defaults = {
-		zIndex: 10,
-		position: 'fixed',
-		top: 'auto',
-		right: 'auto',
-		bottom: 'auto',
-		left: 'auto',
-		boxSizing: 'border-box',
-		delay: 0,
-		fadeDuration: 0,
-		overlayBackground: '#fff',
-		overlayOpacity: .3,
-		callback: function() {}
+		zIndex            : 10,
+		position          : 'fixed',
+		top               : 'auto',
+		right             : 'auto',
+		bottom            : 'auto',
+		left              : 'auto',
+		boxSizing         : 'border-box',
+		delay             : 0,
+		fadeDuration      : 0,
+		overlayBackground : '#fff',
+		overlayOpacity    : 0.3,
+		callback          : function() {}
 	};
 
 	var globalPopups = [];
@@ -37,42 +37,42 @@
 			var settings = $.extend({}, defaults, options);
 
 			return this.each(function() {
-				var self = $(this);
-				var globalWindow = $(window);
-				var popupName = self.attr('class');
+				var self           = $(this);
+				var globalWindow   = $(window);
+				var popupName      = self.attr('class');
 				var popupContainer = $('<div id="' + popupName + 'Container"></div>');
-				var popupOverlay = $('<div class="' + popupName + 'Overlay"></div>');
+				var popupOverlay   = $('<div class="' + popupName + 'Overlay"></div>');
 
 				globalPopups.push(popupContainer);
 
 				// Default styling
 				var defaultCss = {
-					'z-index': settings.zIndex,
-					'top': 0,
-					'left': 0,
-					'width': '100%',
-					'height': '100%'
+					'z-index' : settings.zIndex,
+					'top'     : 0,
+					'left'    : 0,
+					'width'   : '100%',
+					'height'  : '100%'
 				};
 
 				popupContainer.css($.extend({}, defaultCss, {
-					'position': 'absolute',
-					'display': 'none'
+					'position' : 'absolute',
+					'display'  : 'none'
 				}));
 
 				popupOverlay.css($.extend({}, defaultCss, {
-					'position': 'fixed',
-					'background': settings.overlayBackground,
-					'opacity': settings.overlayOpacity
+					'position'   : 'fixed',
+					'background' : settings.overlayBackground,
+					'opacity'    : settings.overlayOpacity
 				}));
 
 				self.css({
-					'z-index': settings.zIndex,
-					'position': settings.position,
-					'top': settings.top,
-					'right': settings.right,
-					'bottom': settings.bottom,
-					'left': settings.left,
-					'box-sizing': settings.boxSizing
+					'z-index'    : settings.zIndex,
+					'position'   : settings.position,
+					'top'        : settings.top,
+					'right'      : settings.right,
+					'bottom'     : settings.bottom,
+					'left'       : settings.left,
+					'box-sizing' : settings.boxSizing
 				});
 
 				if (settings.top === 'auto' && settings.bottom === 'auto') {
@@ -86,6 +86,7 @@
 				}
 
 				popupContainer.append(popupOverlay, self);
+
 				$('body').append(popupContainer);
 
 				settings.callback.call(popupContainer);
@@ -96,7 +97,9 @@
 
 			return this.each(function() {
 				var popup = getPopup($(this).attr('class'));
+
 				popup.children().stop().delay(settings.delay).fadeIn(settings.fadeDuration);
+
 				popup.stop().delay(settings.delay).fadeIn(settings.fadeDuration, function() {
 					settings.callback.call(popup);
 				});
@@ -107,6 +110,7 @@
 
 			return this.each(function() {
 				var popup = getPopup($(this).attr('class'));
+
 				popup.stop().delay(settings.delay).fadeOut(settings.fadeDuration, function() {
 					settings.callback.call(popup);
 				});
@@ -117,7 +121,9 @@
 
 			return this.each(function() {
 				var popup = getPopup($(this).attr('class'));
+
 				popup.stop().unbind().remove();
+
 				settings.callback.call(popup);
 			});
 		}
@@ -125,13 +131,14 @@
 
 	function getPopup(name) {
 		var searchStr = name + 'Container';
-		var count = 0;
-		var found = 0;
+		var count     = 0;
+		var found     = 0;
 
 		globalPopups.forEach(function(popup) {
 			if (searchStr == popup.attr('id')) {
 				found = count;
 			}
+
 			count++;
 		});
 
