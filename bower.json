@@ -3,7 +3,7 @@
 	"version": "1.1.1",
 	"homepage": "www.kycosoftware.com",
 	"description": "A minimalistic and lightweight (2.13KB) modal plugin.",
-	"main": "jquery.kyco.popup.min.js",
+	"main": "dist/jquery.kyco.popup.min.js",
 	"authors": [
 		"Cornelius Weidmann"
 	],
