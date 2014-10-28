@@ -3,7 +3,7 @@
 	jquery.kyco.popup
 	=================
 
-	Version 1.1.1
+	Version 1.1.2
 
 	Brought to you by
 	http://www.kycosoftware.com/
@@ -55,7 +55,7 @@
 				};
 
 				popupContainer.css($.extend({}, defaultCss, {
-					'position' : 'absolute',
+					'position' : 'fixed',
 					'display'  : 'none'
 				}));
 
