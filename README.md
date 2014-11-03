@@ -10,7 +10,9 @@ Take a look at the [demo](http://www.kycosoftware.com/projects/demo/popup).
 How to install
 --------------
 
-Download or clone and include the minified js file after including jquery:
+Bower: `bower install jquery.kyco.popup -D`
+
+Manual: Download or clone and include the minified js file after including jquery:
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="jquery.kyco.popup.min.js"></script>
