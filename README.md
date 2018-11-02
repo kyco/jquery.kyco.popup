@@ -1,5 +1,5 @@
-kyco Popup
-==========
+Popup
+=====
 #### Version: 1.1.2
 
 A minimalistic and lightweight (2.13KB) modal plugin.
