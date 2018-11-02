@@ -4,7 +4,7 @@ Popup
 
 A minimalistic and lightweight (2.13KB) modal plugin.
 
-Take a look at the [demo](http://www.kycosoftware.com/projects/demo/popup).
+[Demo](https://kyco.github.io/jquery.kyco.popup)
 
 
 How to install
