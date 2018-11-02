@@ -92,51 +92,20 @@ What a customisation looks like:
 Configuration - kycoPopup({ *options* })
 ----------------------------------------
 
-  zIndex: 10,
-
-The z-index of the popup. By default the popup will be appended to the body
-no matter where you place it in your markup.
-
-  position: 'fixed',
-
-The position of the popup, usually 'fixed' or 'absolute'.
-
-  top: 'auto',
-  right: 'auto',
-  bottom: 'auto',
-  left: 'auto',
-
-Used to manually override the auto centering of the popup, e.g. top: 50.
-
-  boxSizing: 'border-box',
-
-Default box-sizing value the popup should use.
-
-  delay: 0,
-
-The time (in ms) before the popup appears once it has been triggered.
-
-  fadeDuration: 0,
-
-The time (in ms) it takes for the popup to fade in.
-
-  overlayBackground: '#fff',
-
-The colour of the overlay which covers the screen while the popup is active.
-
-  overlayOpacity: .3,
-
-The opacity of the overlay.
-
-  callback: function() {}
-
-A function which can be called after initiation, opening or closing the modal.
-
-
-Styling
--------
-
-By default there is no styling supplied. You can grab the stylesheet from the `dist` folder for some very basic styling.
+Option | Description | Example
+-------|-------------|--------
+`zIndex` | The z-index of the popup. By default the popup will be appended to the body no matter where you place it in your markup. | `10`
+`position`| The position of the popup. | `'fixed'` or `'absolute'`
+`top`| CSS property styling. | `'auto'`
+`right`| CSS property styling. | `'auto'`
+`bottom`| CSS property styling. | `'auto'`
+`left`| CSS property styling. | `'auto'`
+`boxSizing`| Default box-sizing value the popup should use. | `'border-box'`
+`delay` | The time (in ms) before the popup appears once it has been triggered. | `0`
+`fadeDuration` | The time (in ms) it takes for the popup to fade in.. | `0`
+`overlayBackground` | The colour of the overlay which covers the screen while the popup is active. | `'#fff'`
+`overlayOpacity` | The opacity of the overlay. | `0.3`
+`callback` | A function which can be called after initiation, opening or closing the modal. | `function() {}`
 
 
 Support
