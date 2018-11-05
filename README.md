@@ -12,7 +12,7 @@ How to install
 
     Download or clone the repo
 
-Include the minified JS file after including jQuery:
+Include the minified JS file after including jQuery (works with jQuery 1, 2 & 3):
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="jquery.kyco.popup.min.js"></script>
